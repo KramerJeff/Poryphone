@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Target, RecruitMethod
+from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Target, RecruitMethod, Item, SyncPairMove, ItemQuantity
 
 class TypeSerializer(serializers.ModelSerializer):
   class Meta:
@@ -31,6 +31,13 @@ class TrainerSerializer(serializers.ModelSerializer):
     model = Trainer
     fields = ("id", "name", "description")
 
+class SyncPairSerializer(serializers.ModelSerializer):
+  trainer = TrainerSerializer(many=False)
+  recruit_method = RecruitMethodSerializer(many=False)
+  class Meta:
+    model = SyncPair
+    fields = ("id", "name", "trainer", "base_potential", "recruit_method")
+
 class MoveSerializer(serializers.ModelSerializer):
   type = TypeSerializer(many=False)
   class Meta:
@@ -42,13 +49,23 @@ class PokemonSerializer(serializers.ModelSerializer):
   weakness = TypeSerializer(many=False)
   class Meta:
     model = Pokemon
-    fields = ("id", "name", "type", "weakness", "is_mega", "evo_stage")
+    fields = ("id", "name", "description", "type", "weakness", "is_mega", "evo_stage")
 
-class SyncPairSerializer(serializers.ModelSerializer):
-  moves = MoveSerializer(many=True)
-  trainer = TrainerSerializer(many=False)
-  recruit_method = RecruitMethodSerializer(many=False)
+class ItemSerializer(serializers.ModelSerializer):
   class Meta:
-    model = SyncPair
-    fields = ("id", "name", "moves", "trainer", "recruit_method")
+    model = Item
+    fields = ("id", "name", "description", "obtain_method", "img_path")
 
+class ItemQuantitySerializer(serializers.ModelSerializer):
+  item = ItemSerializer(many=False)
+  class Meta:
+    model = Item
+    fields = ("id", "item", "quantity")
+
+class SyncPairMoveSerializer(serializers.ModelSerializer):
+  syncpair = SyncPairSerializer(many=False)
+  move = MoveSerializer(many=False)
+  unlock_requirements = ItemQuantitySerializer(many=True)
+  class Meta:
+    model = SyncPairMove
+    fields = ("id", "syncpair", "move", "unlock_requirements")

@@ -5,22 +5,15 @@ from rest_framework import generics, viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import status
-from .models import Trainer, Move, Pokemon, SyncPair, Type
-from .serializers import TrainerSerializer, MoveSerializer, PokemonSerializer, SyncPairSerializer, TypeSerializer #
+from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Target, RecruitMethod, Item, ItemQuantity, SyncPairMove
+from .serializers import TrainerSerializer, MoveSerializer, SyncPairSerializer, TypeSerializer, RoleSerializer, CategorySerializer, TargetSerializer, RecruitMethodSerializer, ItemSerializer, ItemQuantitySerializer, SyncPairMoveSerializer, PokemonSerializer
 import json
-# Create your views here.
+
 class ListTrainerView(generics.ListAPIView):
-  """
-  Provides a get method handler
-  """
   queryset = Trainer.objects.all()
   serializer_class = TrainerSerializer
 
 class TrainerViewSet(viewsets.ViewSet):
-
-  """
-  Provides a get method handler
-  """
   queryset = Trainer.objects.all()
   serializer_class = TrainerSerializer
 
@@ -48,17 +41,7 @@ class TrainerViewSet(viewsets.ViewSet):
         status=status.HTTP_404_NOT_FOUND
       )      
 
-class ListTypeView(generics.ListAPIView):
-  """
-  Provides a get method handler
-  """
-  queryset = Type.objects.all()
-  serializer_class = TypeSerializer
-
 class ListMoveView(generics.ListAPIView):
-  """
-  Provides a get method handler
-  """
   queryset = Move.objects.all()
   serializer_class = MoveSerializer
 
@@ -100,10 +83,6 @@ class ListSyncPairView(generics.ListAPIView):
 
 
 class SyncPairViewSet(viewsets.ViewSet):
-
-  """
-  Provides a get method handler
-  """
   queryset = SyncPair.objects.all()
   serializer_class = SyncPairSerializer
 
@@ -149,3 +128,11 @@ class SyncPairViewSet(viewsets.ViewSet):
         },
         status=status.HTTP_404_NOT_FOUND
       )
+
+class ListTypeView(generics.ListAPIView):
+  queryset = Type.objects.all()
+  serializer_class = TypeSerializer
+
+class ListItemView(generics.ListAPIView):
+  queryset = Item.objects.all()
+  serializer_class = ItemSerializer
