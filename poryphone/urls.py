@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListTrainerView, TrainerViewSet, ListMoveView, ListPokemonView, PokemonViewSet, ListSyncPairView, SyncPairViewSet, ListTypeView, ListItemView
+from .views import ListTrainerView, TrainerViewSet, ListMoveView, ListPokemonView, PokemonViewSet, ListSyncPairView, SyncPairViewSet, ListTypeView, ListItemView, ListRoleView
 
 urlpatterns = [
   path('trainers/', ListTrainerView.as_view(), name='trainer-all'),
@@ -14,4 +14,5 @@ urlpatterns = [
   path('pokemon/<name>/', PokemonViewSet.as_view({'get': 'get_name'}), name='pokemon-name'),
   path('types/', ListTypeView.as_view(), name='type-all'),
   path('items/', ListItemView.as_view(), name='item-all'),
+  path('roles/', ListRoleView.as_view(), name='role-all')
 ]

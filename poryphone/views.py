@@ -9,6 +9,30 @@ from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Targ
 from .serializers import TrainerSerializer, MoveSerializer, SyncPairSerializer, TypeSerializer, RoleSerializer, CategorySerializer, TargetSerializer, RecruitMethodSerializer, ItemSerializer, ItemQuantitySerializer, SyncPairMoveSerializer, PokemonSerializer
 import json
 
+     
+
+
+
+class ListTypeView(generics.ListAPIView):
+  queryset = Type.objects.all()
+  serializer_class = TypeSerializer
+
+class ListRoleView(generics.ListAPIView):
+  queryset = Role.objects.all()
+  serializer_class = RoleSerializer
+
+class ListCategoryView(generics.ListAPIView):
+  queryset = Category.objects.all()
+  serializer_class = CategorySerializer
+
+class ListTargetView(generics.ListAPIView):
+  queryset = Target.objects.all()
+  serializer_class = TargetSerializer
+
+class ListRecruitMethodView(generics.ListAPIView):
+  queryset = RecruitMethod.objects.all()
+  serializer_class = RecruitMethodSerializer
+
 class ListTrainerView(generics.ListAPIView):
   queryset = Trainer.objects.all()
   serializer_class = TrainerSerializer
@@ -39,43 +63,8 @@ class TrainerViewSet(viewsets.ViewSet):
           "message": "Trainer with name: {} does not exist".format(kwargs["name"])
         },
         status=status.HTTP_404_NOT_FOUND
-      )      
+      ) 
 
-class ListMoveView(generics.ListAPIView):
-  queryset = Move.objects.all()
-  serializer_class = MoveSerializer
-
-class ListPokemonView(generics.ListAPIView):
-  queryset = Pokemon.objects.all()
-  serializer_class = PokemonSerializer
-
-class PokemonViewSet(viewsets.ViewSet):
-  queryset = Pokemon.objects.all()
-  serializer_class = PokemonSerializer
-
-  def id(self, request, *args, **kwargs):
-    try:
-      pokemon = self.queryset.get(pk=kwargs["pk"])
-      return Response(PokemonSerializer(pokemon).data)
-    except Pokemon.DoesNotExist:
-      return Response(
-        data={
-          "message": "Pokemon with id: {} does not exist".format(kwargs["pk"])
-        },
-        status=status.HTTP_404_NOT_FOUND
-      )
-
-  def get_name(self, request, *args, **kwargs):
-    try:
-      pokemon = self.queryset.get(name__iexact=kwargs["name"])
-      return Response(PokemonSerializer(pokemon).data)
-    except Pokemon.DoesNotExist:
-      return Response(
-        data={
-          "message": "Pokemon with name: {} does not exist".format(kwargs["name"])
-        },
-        status=status.HTTP_404_NOT_FOUND
-      )      
 
 class ListSyncPairView(generics.ListAPIView):
   queryset = SyncPair.objects.all()
@@ -129,10 +118,54 @@ class SyncPairViewSet(viewsets.ViewSet):
         status=status.HTTP_404_NOT_FOUND
       )
 
-class ListTypeView(generics.ListAPIView):
-  queryset = Type.objects.all()
-  serializer_class = TypeSerializer
+class ListMoveView(generics.ListAPIView):
+  queryset = Move.objects.all()
+  serializer_class = MoveSerializer
 
 class ListItemView(generics.ListAPIView):
   queryset = Item.objects.all()
   serializer_class = ItemSerializer
+
+class ListItemQuantityView(generics.ListAPIView):
+  queryset = ItemQuantity.objects.all()
+  serializer_class = ItemQuantitySerializer
+
+class ListSyncPairMoveView(generics.ListAPIView):
+  queryset = SyncPairMove.objects.all()
+  serializer_class = SyncPairMoveSerializer
+
+class ListPokemonView(generics.ListAPIView):
+  queryset = Pokemon.objects.all()
+  serializer_class = PokemonSerializer
+
+class PokemonViewSet(viewsets.ViewSet):
+  queryset = Pokemon.objects.all()
+  serializer_class = PokemonSerializer
+
+  def id(self, request, *args, **kwargs):
+    try:
+      pokemon = self.queryset.get(pk=kwargs["pk"])
+      return Response(PokemonSerializer(pokemon).data)
+    except Pokemon.DoesNotExist:
+      return Response(
+        data={
+          "message": "Pokemon with id: {} does not exist".format(kwargs["pk"])
+        },
+        status=status.HTTP_404_NOT_FOUND
+      )
+
+  def get_name(self, request, *args, **kwargs):
+    try:
+      pokemon = self.queryset.get(name__iexact=kwargs["name"])
+      return Response(PokemonSerializer(pokemon).data)
+    except Pokemon.DoesNotExist:
+      return Response(
+        data={
+          "message": "Pokemon with name: {} does not exist".format(kwargs["name"])
+        },
+        status=status.HTTP_404_NOT_FOUND
+      )      
+
+
+
+
