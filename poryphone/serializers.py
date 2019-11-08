@@ -59,7 +59,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemQuantitySerializer(serializers.ModelSerializer):
   item = ItemSerializer(many=False)
   class Meta:
-    model = Item
+    model = ItemQuantity
     fields = ("id", "item", "quantity")
 
 class SyncPairMoveSerializer(serializers.ModelSerializer):

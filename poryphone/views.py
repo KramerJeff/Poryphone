@@ -4,10 +4,11 @@ from rest_framework import generics, viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import status
-import json
 from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Target, RecruitMethod, Item, ItemQuantity, SyncPairMove
-from .serializers import TrainerSerializer, MoveSerializer, SyncPairSerializer, TypeSerializer, RoleSerializer, CategorySerializer, TargetSerializer, RecruitMethodSerializer, ItemSerializer, ItemQuantitySerializer, SyncPairMoveSerializer, PokemonSerializer
-
+from .serializers import (TrainerSerializer, MoveSerializer, SyncPairSerializer,
+    TypeSerializer, RoleSerializer, CategorySerializer, TargetSerializer, RecruitMethodSerializer,
+    ItemSerializer, ItemQuantitySerializer, SyncPairMoveSerializer, PokemonSerializer)
+import json
 
 class ListTypeView(generics.ListAPIView):
     queryset = Type.objects.all()
@@ -100,13 +101,13 @@ class SyncPairViewSet(viewsets.ViewSet):
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
-            except Exception as e:
-                return Response(
-                    data={
-                        "message": str(e)
-                    },
-                    status=status.HTTP_404_NOT_FOUND
-                )
+        except Exception as e:
+            return Response(
+                data={
+                    "message": str(e)
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
 
     def get_name(self, request, *args, **kwargs):
         try:
