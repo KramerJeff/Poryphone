@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Target, RecruitMethod, Item, SyncPairMove, ItemQuantity
+from .models import Trainer, Move, Pokemon, SyncPair, Type, Role, Category, Target, RecruitMethod, Item, SyncPairMove, ItemQuantity, SyncMove, Passive, SyncPairPassive
 # Register your models here.
 
 admin.site.register(Trainer)
@@ -7,6 +7,9 @@ admin.site.register(Pokemon)
 admin.site.register(SyncPair)
 admin.site.register(Move)
 admin.site.register(SyncPairMove)
+admin.site.register(SyncMove)
+admin.site.register(Passive)
+admin.site.register(SyncPairPassive)
 admin.site.register(Item)
 admin.site.register(ItemQuantity)
 admin.site.register(Type)
