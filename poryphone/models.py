@@ -55,8 +55,8 @@ class Target(models.Model):
     def __str__(self):
         return self.name
 
-# Sync Move (subclass of move)
-# Passive (subclass of move?)
+# Sync Move (not quite the same as a Move, wasted columns)
+# Passive (not quite the same as Move, wasted columns)
 
 
 # Recruit method for Sync Pairs
@@ -74,6 +74,9 @@ class Trainer(models.Model):
     name = models.CharField(max_length=255, null=False, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -81,16 +84,17 @@ class Trainer(models.Model):
 # Sync Pair - Pokemon Family + Trainer
 class SyncPair(models.Model):
     id = models.AutoField(primary_key=True)
+    # This is the name of the base form of the Pokemon
     name = models.CharField(
         max_length=255,
         null=False,
         blank=True, unique=True, default='Unown')
     role = models.ForeignKey(
         Role, on_delete=models.SET_NULL, null=True, blank=True)
-    trainer = models.OneToOneField(
+    trainer = models.ForeignKey(
         Trainer,
         on_delete=models.SET_NULL,
-        related_name='trainer',
+        related_name='syncpair',
         null=True, blank=True)
     base_potential = models.IntegerField(null=True, blank=True, default=3)
     recruit_method = models.ForeignKey(
@@ -100,10 +104,36 @@ class SyncPair(models.Model):
 
     class Meta:
         unique_together = ["name", "trainer"]
+        ordering = ["trainer"]
 
     def __str__(self):
-        return "{} - {}".format(self.name, self.trainer)
+        return "{} - {}".format(self.trainer, self.name)
 
+# The items available in the game
+class Item(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=False, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    obtain_method = models.CharField(max_length=255, null=True, blank=True)
+    img_path = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+# The item and quantity needed for a specific unlock requirement
+class ItemQuantity(models.Model):
+    id = models.AutoField(primary_key=True)
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.SET_NULL,
+        related_name='iqs', null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ["item", "quantity"]
+
+    def __str__(self):
+        return "{} x {}".format(self.item.name, self.quantity)
 
 # A move "belongs" to either a Trainer or a Pokemon
 # - ultimately belonging to a Sync Pair
@@ -131,40 +161,11 @@ class Move(models.Model):
         null=True,
         blank=True
     )
-    # Should these be a single column?
-    cost = models.IntegerField(null=True, blank=True)
-    is_energy = models.BooleanField(null=False, blank=False, default=True)
+    energy_cost = models.IntegerField(null=True, blank=True)
+    num_uses = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.name
-
-
-# The items available in the game
-class Item(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=255, null=False, unique=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
-    obtain_method = models.CharField(max_length=255, null=True, blank=True)
-    img_path = models.CharField(max_length=255, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class ItemQuantity(models.Model):
-    id = models.AutoField(primary_key=True)
-    item = models.ForeignKey(
-        Item,
-        on_delete=models.SET_NULL,
-        related_name='item', null=True, blank=True)
-    quantity = models.IntegerField(null=True, blank=True)
-
-    class Meta:
-        unique_together = ["item", "quantity"]
-
-    def __str__(self):
-        return "{} x {}".format(self.item.name, self.quantity)
-
 
 # The moves of a specific Sync Pair
 class SyncPairMove(models.Model):
@@ -172,29 +173,96 @@ class SyncPairMove(models.Model):
     move = models.ForeignKey(
         Move,
         on_delete=models.SET_NULL,
-        related_name='move',
+        related_name='spmoves',
+        null=True,
+        blank=True
+    )
+    syncpair = models.ForeignKey(
+        SyncPair,
+        on_delete=models.SET_NULL,  # This might warrant a cascade since SyncPairMove is a specific SyncPair's move
+        related_name='spmoves',
+        null=True,
+        blank=True
+    )
+    unlock_requirements = models.ManyToManyField(
+        ItemQuantity,
+        related_name='spmoves',
+        blank=True
+    )
+
+    class Meta:
+        unique_together = ["move", "syncpair"]
+        ordering = ["syncpair"]
+
+    def __str__(self):
+        return "{} - {}".format(self.syncpair.name, self.move.name)
+
+class Passive(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=False, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class SyncPairPassive(models.Model):
+    id = models.AutoField(primary_key=True)
+    passive = models.ForeignKey(
+        Passive,
+        on_delete=models.SET_NULL,
+        related_name='sppassive',
+        null=True,
+        blank=False
+    )
+    syncpair = models.ForeignKey(
+        SyncPair,
+        on_delete=models.SET_NULL,  # This might warrant a cascade since SyncPairMove is a specific SyncPair's move
+        related_name='sppassive',
+        null=True,
+        blank=True
+    )    
+    unlock_requirements = models.ManyToManyField(
+        ItemQuantity,
+        related_name='sppassive',
+        blank=True
+    )
+
+    def __str__(self):
+        return "{} - {}".format(self.syncpair.name, self.passive.name)
+
+class SyncMove(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, null=False, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    type = models.ForeignKey(
+        Type,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )   
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    power = ArrayField(models.IntegerField(), null=True, blank=True, size=2)
+    target = models.ForeignKey(
+        Target,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
     syncpair = models.ForeignKey(
         SyncPair,
         on_delete=models.SET_NULL,
-        related_name='syncpair',
+        related_name='syncmoves',
         null=True,
         blank=True
     )
-    unlock_requirements = models.ManyToManyField(
-        ItemQuantity,
-        related_name='items',
-        blank=True
-    )
-
-    class Meta:
-        unique_together = ["move", "syncpair"]
 
     def __str__(self):
-        return "{} - {}".format(self.syncpair.name, self.move.name)
-
+        return self.name
 
 # Used to represent a Pokemon
 class Pokemon(models.Model):
@@ -224,7 +292,7 @@ class Pokemon(models.Model):
     )
 
     class Meta:
-        ordering = ['id']
+        ordering = ['name']
 
     def __str__(self):
         return self.name
