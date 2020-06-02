@@ -1,1 +1,1 @@
-web: python https://poryphone.herokuapp.com/manage.py runserver 0.0.0.0:$PORT
+web: python website/manage.py runserver 0.0.0.0:$PORT
