@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,33 +77,24 @@ WSGI_APPLICATION = 'poryphonemanager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd6r2o46gs245k5',
-        'USER': 'cyzylwgtukdsku',
-        'PASSWORD': 'd44cac72731f49e3b7724b23a0ccb149dd1eb84daa130ba10e2da4e79acf4b33',
-        'HOST': 'ec2-3-222-150-253.compute-1.amazonaws.com',
-        'PORT': '5432',
-    },
-    'local': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'poryphone',
-        'USER': 'Jeff',
-        'PASSWORD': 'Z3ratulpg',
-        'HOST': 'localhost',
-        'PORT': '5432',        
-    },
-    'mysql': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'poryphone',
-        'USER': 'Jeff',
-        'PASSWORD': 'Z3ratulpg',
-        'HOST': 'localhost', #this isn't even the right URL
-        'PORT': '3306',
-    }
-
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd6r2o46gs245k5',
+#         'USER': 'cyzylwgtukdsku',
+#         'PASSWORD': 'd44cac72731f49e3b7724b23a0ccb149dd1eb84daa130ba10e2da4e79acf4b33',
+#         'HOST': 'ec2-3-222-150-253.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     },
+#     'local': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'poryphone',
+#         'USER': 'Jeff',
+#         'PASSWORD': 'Z3ratulpg',
+#         'HOST': 'localhost',
+#         'PORT': '5432',        
+#     }
+# }
 
 
 # Password validation
@@ -146,3 +139,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20
 }
+
+# DATABASES['default'] = dj_database_url.config(
+#     conn_max_age=600, ssl_require=True)
+
+django_heroku.settings(locals())
