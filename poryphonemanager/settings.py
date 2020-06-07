@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import dj_database_url
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -40,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'poryphone'
+    'poryphone',
+    'frontend'
 ]
 
 MIDDLEWARE = [
@@ -77,24 +77,24 @@ WSGI_APPLICATION = 'poryphonemanager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd6r2o46gs245k5',
-#         'USER': 'cyzylwgtukdsku',
-#         'PASSWORD': 'd44cac72731f49e3b7724b23a0ccb149dd1eb84daa130ba10e2da4e79acf4b33',
-#         'HOST': 'ec2-3-222-150-253.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     },
-#     'local': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'poryphone',
-#         'USER': 'Jeff',
-#         'PASSWORD': 'Z3ratulpg',
-#         'HOST': 'localhost',
-#         'PORT': '5432',        
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd9u1h522m41pmf',
+        'USER': 'gfkmdrxeysvhmi',
+        'PASSWORD': '9545226c1b3877fbb10d0c54aa37571cdc4c233332fd28ef5335845fe31e6351',
+        'HOST': 'ec2-34-202-88-122.compute-1.amazonaws.com',
+        'PORT': '5432',
+    },
+    'local': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'poryphone',
+        'USER': 'Jeff',
+        'PASSWORD': 'Z3ratulpg',
+        'HOST': 'localhost',
+        'PORT': '5432',        
+    }
+}
 
 
 # Password validation
@@ -140,7 +140,4 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
-# DATABASES['default'] = dj_database_url.config(
-#     conn_max_age=600, ssl_require=True)
-
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
