@@ -1,1 +1,1 @@
-web: gunicorn poryphonemanager.wsgi --logfile logs.txt
+web: gunicorn poryphonemanager.wsgi
