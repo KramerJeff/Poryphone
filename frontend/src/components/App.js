@@ -1,27 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {render} from 'react-dom';
+import SyncPairs from './SyncPairs';
 
-const API_URL_BASE = 'poryphone.com/api/v1';
 
 const App = () => {
-    const [syncPairs, setSyncPairs] = useState({});
-
-    useEffect(() => {
-        fetch(`http://${API_URL_BASE}/syncpairs`)
-        .then(response => response.json)
-        .then(
-            (result) => {
-                setSyncPairs(result);
-            },
-            (error) => {
-                console.error(`Something went horribly wrong ${error}`);
-            }
-        )
-    }, [syncPairs]);
-
     return ( 
         <div>
-            
+           <SyncPairs/>
         </div>
     );
 }
+
+export default App;
+const container = document.getElementById('app');
+render(<App/>, container);
