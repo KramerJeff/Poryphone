@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 const SyncPairs = ({results}) => {
-    const API_URL_BASE = 'https://poryhone.herokuapp.com/api/v1';
+    const API_URL_BASE = 'http://localhost:8000/api/v1';
     const [error, setError] = useState(null);
     const [syncPairs, setSyncPairs] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -12,6 +12,7 @@ const SyncPairs = ({results}) => {
                 (result) => {
                     setIsLoaded(true);
                     setSyncPairs(result);
+                    console.log('useEffect ' + result);
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -24,19 +25,20 @@ const SyncPairs = ({results}) => {
         return(<p>Error: {error.message}</p>);
     }
     else if(!isLoaded) {
-        return (<p>loading....</p>);
+        return (<p>Loading....</p>);
     }
     else {
         return (
             <div>
-                {<p>{syncPairs.length}</p>}
-                <ul>
-                    {syncPairs.map((syncPair, index) => {
-                        //let values = Object.values(syncPair);
-                        {<li key={index}>{syncPair.syncpair_name}</li>}
-                        /* {<li key={index}>{values[0]}</li>} */
-                    })}
-                </ul>
+                {syncPairs.map((item) => (
+                    <div>
+                        <h1 key={item.id}>Sync Pair: {item.syncpair_name}</h1>
+                        <h3 key={item.id}>Trainer: {item.trainer.name}</h3>
+                        <p key={item.id}>{item.trainer.description}</p>
+                        <h3 key={item.id}>Pokemon: {item.pokemon.name}</h3>
+                        <p key={item.id}>{item.pokemon.description}</p>
+                    </div>
+                ))}
             </div>
         );
     }
