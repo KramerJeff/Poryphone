@@ -1,40 +1,45 @@
 import React, {useEffect, useState} from 'react';
 
 const SyncPairs = ({results}) => {
-    const API_URL_BASE = 'api/v1';
-    //const syncpairs = props.entries();
+    const API_URL_BASE = 'https://poryhone.herokuapp.com/api/v1';
+    const [error, setError] = useState(null);
     const [syncPairs, setSyncPairs] = useState([]);
-    let myArray = [];
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         fetch(`${API_URL_BASE}/syncpairs`)
             .then(response => response.json())
             .then(
                 (result) => {
-                    setSyncPairs(Object.values(result));
-                    myArray = Object.values(result);
-                    console.log(`result: ` + result);
-                    console.log(`Object.values(result): ${typeof (Object.values(result))}`);
-                    console.log(Object.values(result));
-                    console.log(`${typeof (syncPairs)}`);
+                    setIsLoaded(true);
+                    setSyncPairs(result);
                 },
                 (error) => {
-                    console.error(`Something went horribly wrong ${error}`);
+                    setIsLoaded(true);
+                    setError(error);
                 }
             )
     }, []); 
-    
-    return (
-        <div>
-            <p>Hi Jeff!</p>
-            {syncPairs.length > 0 ? <p>{syncPairs.length}</p> : <p>You really tried hehe</p>}
-            {syncPairs.length > 0 ? syncPairs.map((syncPair, index) => {
-                <div key={index}>
-                    <p>{syncPair.id}</p>
-                    <p>{syncPair.syncpair_name}</p>
-                </div>
-            }) : <p>You tried hehe</p>}
-        </div>
-    );
+
+    if(error) {
+        return(<p>Error: {error.message}</p>);
+    }
+    else if(!isLoaded) {
+        return (<p>loading....</p>);
+    }
+    else {
+        return (
+            <div>
+                {<p>{syncPairs.length}</p>}
+                <ul>
+                    {syncPairs.map((syncPair, index) => {
+                        //let values = Object.values(syncPair);
+                        {<li key={index}>{syncPair.syncpair_name}</li>}
+                        /* {<li key={index}>{values[0]}</li>} */
+                    })}
+                </ul>
+            </div>
+        );
+    }
 }
 
 SyncPairs.propTypes = {
