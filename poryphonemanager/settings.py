@@ -77,13 +77,13 @@ WSGI_APPLICATION = 'poryphonemanager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd9u1h522m41pmf',
-        'USER': 'gfkmdrxeysvhmi',
-        'PASSWORD': '9545226c1b3877fbb10d0c54aa37571cdc4c233332fd28ef5335845fe31e6351',
-        'HOST': 'ec2-34-202-88-122.compute-1.amazonaws.com',
+        'NAME': 'dcuirjmfdrqls4',
+        'USER': 'aykdxnqwjcjyoj',
+        'PASSWORD': '8e51971f3c8f9c58838888958bf9853ab06fe11ffd4a52e931e995774e209697',
+        'HOST': 'ec2-34-197-188-147.compute-1.amazonaws.com',
         'PORT': '5432',
     },
     'local': {
@@ -94,7 +94,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',        
     }
-}
+} """
 
 
 # Password validation
@@ -135,9 +135,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20
-}
-
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
