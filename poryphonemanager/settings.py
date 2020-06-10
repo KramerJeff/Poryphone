@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,12 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'poryphone'
+    'corsheaders',
+    'poryphone',
+    'frontend',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -72,28 +74,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'poryphonemanager.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd6r2o46gs245k5',
-#         'USER': 'cyzylwgtukdsku',
-#         'PASSWORD': 'd44cac72731f49e3b7724b23a0ccb149dd1eb84daa130ba10e2da4e79acf4b33',
-#         'HOST': 'ec2-3-222-150-253.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     },
-#     'local': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'poryphone',
-#         'USER': 'Jeff',
-#         'PASSWORD': 'Z3ratulpg',
-#         'HOST': 'localhost',
-#         'PORT': '5432',        
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dcuirjmfdrqls4',
+        'USER': 'aykdxnqwjcjyoj',
+        'PASSWORD': '8e51971f3c8f9c58838888958bf9853ab06fe11ffd4a52e931e995774e209697',
+        'HOST': 'ec2-34-197-188-147.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -134,4 +127,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+<<<<<<< HEAD
 django_heroku.settings(locals())
+=======
+#django_heroku.settings(locals())
+
+CORS_ORIGIN_ALLOW_ALL = True
+>>>>>>> react
