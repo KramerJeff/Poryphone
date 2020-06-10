@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import * as constants from '../constants.js';
 
 const SyncPairs = ({results}) => {
-    const API_URL_BASE = 'http://localhost:8000/api/v1';
     const [error, setError] = useState(null);
     const [syncPairs, setSyncPairs] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-        fetch(`${API_URL_BASE}/syncpairs`)
+        fetch(`${constants.API_URL_BASE}/syncpairs`)
             .then(response => response.json())
             .then(
                 (result) => {
@@ -31,12 +31,12 @@ const SyncPairs = ({results}) => {
         return (
             <div>
                 {syncPairs.map((item) => (
-                    <div>
-                        <h1 key={item.id}>Sync Pair: {item.syncpair_name}</h1>
-                        <h3 key={item.id}>Trainer: {item.trainer.name}</h3>
-                        <p key={item.id}>{item.trainer.description}</p>
-                        <h3 key={item.id}>Pokemon: {item.pokemon.name}</h3>
-                        <p key={item.id}>{item.pokemon.description}</p>
+                    <div key={item.id}>
+                        <h1>Sync Pair: {item.syncpair_name}</h1>
+                        <h3>Trainer: {item.trainer.name}</h3>
+                        <p>{item.trainer.description}</p>
+                        <h3>Pokemon: {item.pokemon[0].name}</h3>
+                        <p>{item.pokemon[0].description}</p>
                     </div>
                 ))}
             </div>
