@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import * as constants from '../constants.js';
 
-const SyncPairs = ({results}) => {
+const SyncPairs = () => {
     const [error, setError] = useState(null);
     const [syncPairs, setSyncPairs] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -12,7 +12,6 @@ const SyncPairs = ({results}) => {
                 (result) => {
                     setIsLoaded(true);
                     setSyncPairs(result);
-                    console.log('useEffect ' + result);
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -30,13 +29,13 @@ const SyncPairs = ({results}) => {
     else {
         return (
             <div>
-                {syncPairs.map((item) => (
-                    <div key={item.id}>
-                        <h1>Sync Pair: {item.syncpair_name}</h1>
-                        <h3>Trainer: {item.trainer.name}</h3>
-                        <p>{item.trainer.description}</p>
-                        <h3>Pokemon: {item.pokemon[0].name}</h3>
-                        <p>{item.pokemon[0].description}</p>
+                {syncPairs.map((syncpair) => (
+                    <div key={syncpair.id}>
+                        <h1>Sync Pair: {syncpair.syncpair_name}</h1>
+                        <h3>Trainer: {syncpair.trainer.name}</h3>
+                        <p>{syncpair.trainer.description}</p>
+                        <h3>Pokemon: {syncpair.pokemon[0].name}</h3>
+                        <p>{syncpair.pokemon[0].description}</p>
                     </div>
                 ))}
             </div>
