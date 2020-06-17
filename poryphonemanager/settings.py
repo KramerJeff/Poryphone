@@ -74,20 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'poryphonemanager.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['PORYPHONE_DB_NAME'],
-        'USER': os.environ['PORYPHONE_DB_USER'],
-        'PASSWORD': os.environ['PORYPHONE_DB_PASS'],
-        'HOST': os.environ['PORYPHONE_DB_HOST'],
-        'PORT': '5432',
-    }
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
@@ -130,6 +116,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 CORS_ORIGIN_ALLOW_ALL = True
