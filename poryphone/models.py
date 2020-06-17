@@ -73,6 +73,7 @@ class Trainer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    img = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         ordering = ["name"]
@@ -269,6 +270,7 @@ class Pokemon(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    img = models.CharField(max_length=255, null=True, blank=True)
     type = models.ManyToManyField(
         Type,
         related_name='%(class)s_type',
@@ -290,9 +292,47 @@ class Pokemon(models.Model):
         blank=True,
         null=True
     )
+    hp1 = models.IntegerField(null=True, blank=True)
+    atk1 = models.IntegerField(null=True, blank=True)
+    def1 = models.IntegerField(null=True, blank=True)
+    satk1 = models.IntegerField(null=True, blank=True)
+    sdef1 = models.IntegerField(null=True, blank=True)
+    spd1 = models.IntegerField(null=True, blank=True)
+    hp30 = models.IntegerField(null=True, blank=True)
+    atk30 = models.IntegerField(null=True, blank=True)
+    def30 = models.IntegerField(null=True, blank=True)
+    satk30 = models.IntegerField(null=True, blank=True)
+    sdef30 = models.IntegerField(null=True, blank=True)
+    spd30 = models.IntegerField(null=True, blank=True)
+    hp45 = models.IntegerField(null=True, blank=True)
+    atk45 = models.IntegerField(null=True, blank=True)
+    def45 = models.IntegerField(null=True, blank=True)
+    satk45 = models.IntegerField(null=True, blank=True)
+    sdef45 = models.IntegerField(null=True, blank=True)
+    spd45 = models.IntegerField(null=True, blank=True)
+    hp100 = models.IntegerField(null=True, blank=True)
+    atk100 = models.IntegerField(null=True, blank=True)
+    def100 = models.IntegerField(null=True, blank=True)
+    satk100 = models.IntegerField(null=True, blank=True)
+    sdef100 = models.IntegerField(null=True, blank=True)
+    spd100 = models.IntegerField(null=True, blank=True)
+
 
     class Meta:
         ordering = ['name']
 
     def __str__(self):
         return self.name
+
+    #https://gamepress.gg/pokemonmasters/guide/sync-pair-leveling-and-stat-growth
+    def calcHPStat(self, newLvl):
+        #if 1, 30, 45, 100 - get value at that breakpoint
+        #elif newLvl > 45 and newLvl < 100
+        #elif newLvl < 45 and newLvl > 30
+        #else invalid
+
+        #stats_40 = stats_at30 + (newLvl - 30) * (stats_at45 - stats_at30) / (45-30) 
+        return 0
+
+    def calcAllStats(self, newLvl):
+        return 0
