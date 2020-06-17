@@ -270,7 +270,7 @@ class Pokemon(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=False, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    img = models.CharField(max_length=255, null=True, blank=True)
+    img_path = models.CharField(max_length=255, null=True, blank=True)
     type = models.ManyToManyField(
         Type,
         related_name='%(class)s_type',
