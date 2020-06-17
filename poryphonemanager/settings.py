@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'poryphonemanager.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dcuirjmfdrqls4',
-        'USER': 'aykdxnqwjcjyoj',
-        'PASSWORD': '8e51971f3c8f9c58838888958bf9853ab06fe11ffd4a52e931e995774e209697',
-        'HOST': 'ec2-34-197-188-147.compute-1.amazonaws.com',
+        'NAME': os.environ['PORYPHONE_DB_NAME'],
+        'USER': os.environ['PORYPHONE_DB_USER'],
+        'PASSWORD': os.environ['PORYPHONE_DB_PASS'],
+        'HOST': os.environ['PORYPHONE_DB_HOST'],
         'PORT': '5432',
     }
 }
