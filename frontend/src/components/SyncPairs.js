@@ -34,6 +34,7 @@ const SyncPairs = () => {
                         <h1>Sync Pair: {syncpair.syncpair_name}</h1>
                         <h3>Trainer: {syncpair.trainer.name}</h3>
                         <p>{syncpair.trainer.description}</p>
+                        {syncpair.pokemon[0].img_path && <img src={syncpair.pokemon[0].img_path}></img>}
                         <h3>Pokemon: {syncpair.pokemon[0].name}</h3>
                         <p>{syncpair.pokemon[0].description}</p>
                     </div>

@@ -132,5 +132,5 @@ class PokemonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pokemon
-        fields = ("id", "name", "description", "type",
+        fields = ("id", "name", "description", "img_path", "type",
                   "weakness", "is_mega", "evo_stage")
